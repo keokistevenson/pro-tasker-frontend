@@ -13,15 +13,20 @@ function Navbar() {
   return (
     <nav className="navbar">
       <Link to="/">Home</Link>
-      <Link to="/blog">Blog</Link>
 
       {isAuthenticated ? (
         <>
-          <Link to="/admin">Admin</Link>
-          <button onClick={handleLogout}>Log Out</button>
+          <Link to="/dashboard">Dashboard</Link>
+
+          <button onClick={handleLogout}>
+            Logout
+          </button>
         </>
       ) : (
-        <Link to="/login">Log In</Link>
+        <>
+          <Link to="/login">Login</Link>
+          <Link to="/register">Register</Link>
+        </>
       )}
     </nav>
   );

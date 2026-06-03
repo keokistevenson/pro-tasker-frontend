@@ -1,34 +1,119 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+
+type User = {
+  _id: string;
+  username: string;
+  email: string;
+};
+
+type AuthResponse = {
+  token: string;
+  user: User;
+  message?: string;
+};
 
 interface AuthContextType {
+  user: User | null;
+  token: string | null;
   isAuthenticated: boolean;
-  login: () => void;
+  login: (email: string, password: string) => Promise<void>;
+  register: (
+    username: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
   logout: () => void;
 }
 
-// Create the context
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Wraps the whole app and provides login/logout state
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  function login() {
-    setIsAuthenticated(true);
+  const isAuthenticated = Boolean(token);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("proTaskerToken");
+    const storedUser = localStorage.getItem("proTaskerUser");
+
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  async function login(email: string, password: string) {
+    const response = await fetch(`${API_BASE_URL}/users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data: AuthResponse = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Login failed.");
+    }
+
+    localStorage.setItem("proTaskerToken", data.token);
+    localStorage.setItem("proTaskerUser", JSON.stringify(data.user));
+
+    setToken(data.token);
+    setUser(data.user);
+  }
+
+  async function register(username: string, email: string, password: string) {
+    const response = await fetch(`${API_BASE_URL}/users/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    const data: AuthResponse = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Registration failed.");
+    }
+
+    localStorage.setItem("proTaskerToken", data.token);
+    localStorage.setItem("proTaskerUser", JSON.stringify(data.user));
+
+    setToken(data.token);
+    setUser(data.user);
   }
 
   function logout() {
-    setIsAuthenticated(false);
+    localStorage.removeItem("proTaskerToken");
+    localStorage.removeItem("proTaskerUser");
+
+    setToken(null);
+    setUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        isAuthenticated,
+        login,
+        register,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-// Custom hook so we can easily use auth anywhere
 export function useAuth() {
   const context = useContext(AuthContext);
 
