@@ -1,12 +1,12 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./pages/Home";
-import BlogIndex from "./pages/BlogIndex";
-import BlogPost from "./pages/BlogPost";
+import Dashboard from "./pages/Dashboard";
+import ProjectDetails from "./pages/ProjectDetails";
 import Login from "./pages/Login";
-import Admin from "./pages/Admin";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -16,19 +16,28 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route path="/blog" element={<BlogIndex />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         <Route
-          path="/admin"
+          path="/dashboard"
           element={
             <ProtectedRoute>
-              <Admin />
+              <Dashboard />
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/projects/:id"
+          element={
+            <ProtectedRoute>
+              <ProjectDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );
