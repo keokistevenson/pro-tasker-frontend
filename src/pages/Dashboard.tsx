@@ -4,6 +4,7 @@ import {
   createProject,
   deleteProject,
   getProjects,
+  updateProject,
   type Project,
 } from "../api/api";
 import ProjectCard from "../components/ProjectCard";
@@ -56,6 +57,21 @@ function Dashboard() {
     );
   }
 
+  async function handleUpdateProject(
+    projectId: string,
+    projectData: { name: string; description: string }
+  ) {
+    if (!token) return;
+
+    const updatedProject = await updateProject(projectId, projectData, token);
+
+    setProjects((prevProjects) =>
+      prevProjects.map((project) =>
+        project._id === projectId ? updatedProject : project
+      )
+    );
+  }
+
   return (
     <main>
       <h1>Project Dashboard</h1>
@@ -74,6 +90,7 @@ function Dashboard() {
             key={project._id}
             project={project}
             onDelete={handleDeleteProject}
+            onUpdate={handleUpdateProject}
           />
         ))}
       </section>
