@@ -3,11 +3,18 @@ import TaskItem from "./TaskItem";
 
 type TaskListProps = {
   tasks: Task[];
-  onStatusChange: (taskId: string, status: Task["status"]) => void;
+  onUpdate: (
+    taskId: string,
+    taskData: {
+      title: string;
+      description: string;
+      status: Task["status"];
+    }
+  ) => Promise<void>;
   onDelete: (taskId: string) => void;
 };
 
-function TaskList({ tasks, onStatusChange, onDelete }: TaskListProps) {
+function TaskList({ tasks, onUpdate, onDelete }: TaskListProps) {
   if (tasks.length === 0) {
     return <p>No tasks yet.</p>;
   }
@@ -20,7 +27,7 @@ function TaskList({ tasks, onStatusChange, onDelete }: TaskListProps) {
         <TaskItem
           key={task._id}
           task={task}
-          onStatusChange={onStatusChange}
+          onUpdate={onUpdate}
           onDelete={onDelete}
         />
       ))}

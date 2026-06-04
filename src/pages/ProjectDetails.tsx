@@ -60,10 +60,17 @@ function ProjectDetails() {
     setTasks((prevTasks) => [...prevTasks, newTask]);
   }
 
-  async function handleStatusChange(taskId: string, status: Task["status"]) {
+  async function handleUpdateTask(
+    taskId: string,
+    taskData: {
+      title: string;
+      description: string;
+      status: Task["status"];
+    }
+  ) {
     if (!token) return;
 
-    const updatedTask = await updateTask(taskId, { status }, token);
+    const updatedTask = await updateTask(taskId, taskData, token);
 
     setTasks((prevTasks) =>
       prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
@@ -115,7 +122,7 @@ function ProjectDetails() {
 
       <TaskList
         tasks={tasks}
-        onStatusChange={handleStatusChange}
+        onUpdate={handleUpdateTask}
         onDelete={handleDeleteTask}
       />
     </main>
