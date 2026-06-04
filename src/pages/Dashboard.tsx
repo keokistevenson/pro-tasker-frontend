@@ -80,7 +80,11 @@ function Dashboard() {
       <ProjectForm onSubmit={handleCreateProject} />
 
       {loading && <p>Loading projects...</p>}
-      {error && <p>{error}</p>}
+      {error && (
+        <p role="alert" className="error">
+          {error}
+        </p>
+      )}
 
       {!loading && projects.length === 0 && <p>No projects yet.</p>}
 

@@ -32,12 +32,19 @@ function Login() {
     <main>
       <h1>Login</h1>
 
-      {error && <p>{error}</p>}
+      {/* {error && <p>{error}</p>} */}
+
+      {error && (
+        <p role="alert" className="error">
+          {error}
+        </p>
+      )}
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -46,8 +53,9 @@ function Login() {
         </div>
 
         <div>
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

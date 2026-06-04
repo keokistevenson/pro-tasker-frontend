@@ -11,7 +11,7 @@ function Navbar() {
   }
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" aria-label="Main navigation">
       <Link to="/">Home</Link>
 
       {isAuthenticated ? (
