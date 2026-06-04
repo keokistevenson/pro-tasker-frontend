@@ -153,6 +153,42 @@ section {
   color: #16a34a;
 }
 
+.project-card {
+  display: block;
+}
+
+.project-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.project-card-image {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.project-details-image {
+  width: 100%;
+  max-width: 420px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  width: 180px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
 @media (max-width: 700px) {
   .navbar {
     padding: 1rem;

@@ -9,11 +9,16 @@ import {
 } from "../api/api";
 import ProjectCard from "../components/ProjectCard";
 import ProjectForm from "../components/ProjectForm";
+import type { ImagePreview } from "../components/ImageUpload";
+
+type ProjectWithImage = Project & {
+  imagePreview?: ImagePreview | null;
+};
 
 function Dashboard() {
   const { token, user } = useAuth();
 
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectWithImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -40,17 +45,39 @@ function Dashboard() {
   async function handleCreateProject(projectData: {
     name: string;
     description: string;
+    imagePreview?: ImagePreview | null;
   }) {
     if (!token) return;
 
-    const newProject = await createProject(projectData, token);
-    setProjects((prevProjects) => [...prevProjects, newProject]);
+    const newProject = await createProject(
+      {
+        name: projectData.name,
+        description: projectData.description,
+      },
+      token
+    );
+
+    if (projectData.imagePreview) {
+      sessionStorage.setItem(
+        `project-image-${newProject._id}`,
+        JSON.stringify(projectData.imagePreview)
+      );
+    }
+
+    setProjects((prevProjects) => [
+      ...prevProjects,
+      {
+        ...newProject,
+        imagePreview: projectData.imagePreview,
+      },
+    ]);
   }
 
   async function handleDeleteProject(projectId: string) {
     if (!token) return;
 
     await deleteProject(projectId, token);
+    sessionStorage.removeItem(`project-image-${projectId}`);
 
     setProjects((prevProjects) =>
       prevProjects.filter((project) => project._id !== projectId)
@@ -67,7 +94,12 @@ function Dashboard() {
 
     setProjects((prevProjects) =>
       prevProjects.map((project) =>
-        project._id === projectId ? updatedProject : project
+        project._id === projectId
+          ? {
+              ...updatedProject,
+              imagePreview: project.imagePreview,
+            }
+          : project
       )
     );
   }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import type { ImagePreview } from "../components/ImageUpload";
 import {
   createTask,
   deleteTask,
@@ -19,6 +20,7 @@ function ProjectDetails() {
 
   const [project, setProject] = useState<Project | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [imagePreview, setImagePreview] = useState<ImagePreview | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -48,6 +50,16 @@ function ProjectDetails() {
 
     loadProjectAndTasks();
   }, [id, token]);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const storedImage = sessionStorage.getItem(`project-image-${id}`);
+
+    if (storedImage) {
+      setImagePreview(JSON.parse(storedImage));
+    }
+  }, [id]);
 
   async function handleCreateTask(taskData: {
     title: string;
@@ -96,7 +108,9 @@ function ProjectDetails() {
   if (error) {
     return (
       <main>
-        <p>{error}</p>
+        <p role="alert" className="error">
+          {error}
+        </p>
         <Link to="/dashboard">Back to Dashboard</Link>
       </main>
     );
@@ -117,6 +131,14 @@ function ProjectDetails() {
 
       <h1>{project.name}</h1>
       <p>{project.description || "No description provided."}</p>
+
+      {imagePreview?.previewUrl && (
+        <img
+          className="project-details-image"
+          src={imagePreview.previewUrl}
+          alt={`Preview for ${project.name}`}
+        />
+      )}
 
       <TaskForm onSubmit={handleCreateTask} />
 

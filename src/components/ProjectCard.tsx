@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { Project } from "../api/api";
+import type { ImagePreview } from "./ImageUpload";
+
+type ProjectWithImage = Project & {
+    imagePreview?: ImagePreview | null;
+};
 
 type ProjectCardProps = {
-    project: Project;
+    project: ProjectWithImage;
     onDelete: (projectId: string) => void;
     onUpdate: (
         projectId: string,
@@ -48,14 +53,33 @@ function ProjectCard({ project, onDelete, onUpdate }: ProjectCardProps) {
     }
 
     return (
-        <article className="card">
-            <h2>{project.name}</h2>
-            <p>{project.description || "No description provided."}</p>
+        <article className="card project-card">
+            {project.imagePreview?.previewUrl && (
+                <img
+                    className="project-card-image"
+                    src={project.imagePreview.previewUrl}
+                    alt={`Preview for ${project.name}`}
+                />
+            )}
 
-            <Link to={`/projects/${project._id}`}>View Details</Link>
+            <div>
+                <h2>{project.name}</h2>
+                <p>{project.description || "No description provided."}</p>
 
-            <button onClick={() => setIsEditing(true)}>Edit</button>
-            <button onClick={() => onDelete(project._id)}>Delete</button>
+                <Link
+                    to={`/projects/${project._id}`}
+                    state={{ imagePreview: project.imagePreview }}
+                >
+                    View Details
+                </Link>
+
+                <button type="button" onClick={() => setIsEditing(true)}>
+                    Edit
+                </button>
+                <button type="button" onClick={() => onDelete(project._id)}>
+                    Delete
+                </button>
+            </div>
         </article>
     );
 }
