@@ -1,75 +1,259 @@
-# React + TypeScript + Vite
+# Pro-Tasker Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+Pro-Tasker Frontend is a React and TypeScript single-page application that provides a user-friendly interface for managing projects and tasks.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The application allows users to register, authenticate, create projects, organize tasks, update task progress, and manage their work through a secure and responsive interface.
 
-## React Compiler
+The frontend communicates with the Pro-Tasker Backend API using JWT authentication and RESTful API requests.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+---
 
-Note: This will impact Vite dev & build performances.
+## Features
 
-## Expanding the ESLint configuration
+### Authentication
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- User registration
+- User login
+- Persistent authentication using JWT tokens
+- Protected routes
+- Secure logout functionality
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Project Management
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Create projects
+- View all projects
+- Edit project details
+- Delete projects
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Task Management
+
+- Create tasks
+- View project tasks
+- Edit task details
+- Update task status
+- Delete tasks
+
+### Accessibility
+
+- Semantic HTML
+- Form labels and input associations
+- ARIA attributes for interactive controls
+- Screen reader-friendly error handling
+
+### User Experience
+
+- Responsive layout
+- Loading states
+- Error handling
+- Empty-state messaging
+
+---
+
+## Technologies Used
+
+### Frontend
+
+- React
+- TypeScript
+- React Router
+- Vite
+- Fetch API
+- CSS
+
+### Backend Integration
+
+- REST API
+- JSON Web Tokens (JWT)
+
+---
+
+## Application Screens
+
+### Home Page
+
+Provides an introduction to the application and entry points for registration and login.
+
+### Authentication Pages
+
+- Register
+- Login
+
+### Dashboard
+
+- View all projects
+- Create projects
+- Edit projects
+- Delete projects
+
+### Project Details
+
+- View project information
+- Create tasks
+- Edit tasks
+- Update task status
+- Delete tasks
+
+---
+
+## Installation
+
+### Clone Repository
+
+```bash
+git clone <repository-url>
+cd pro-tasker-frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+VITE_API_BASE_URL=http://localhost:3000/api
+```
+
+### Start Development Server
+
+```bash
+npm run dev
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+---
+
+## Environment Variables
+
+| Variable | Description |
+|-----------|-------------|
+| VITE_API_BASE_URL | Backend API URL |
+
+---
+
+## Project Structure
+
+```text
+pro-tasker-frontend/
+│
+├── public/
+│
+├── src/
+│   │
+│   ├── api/
+│   │   └── api.ts
+│   │
+│   ├── assets/
+│   │
+│   ├── components/
+│   │   ├── Navbar.tsx
+│   │   ├── ProjectCard.tsx
+│   │   ├── ProjectForm.tsx
+│   │   ├── TaskForm.tsx
+│   │   ├── TaskItem.tsx
+│   │   ├── TaskList.tsx
+│   │   └── ProtectedRoute.tsx
+│   │
+│   ├── context/
+│   │   └── AuthContext.tsx
+│   │
+│   ├── pages/
+│   │   ├── Home.tsx
+│   │   ├── Login.tsx
+│   │   ├── Register.tsx
+│   │   ├── Dashboard.tsx
+│   │   └── ProjectDetails.tsx
+│   │
+│   ├── App.tsx
+│   ├── main.tsx
+│   ├── App.css
+│   └── index.css
+│
+├── .env.example
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── README.md
+└── vite.config.ts
+```
+
+---
+
+## Folder Descriptions
+
+| Folder | Purpose |
+|-----------|-------------|
+| api | API communication layer |
+| assets | Images and static assets |
+| components | Reusable UI components |
+| context | Global authentication state |
+| pages | Route-based page components |
+
+---
+
+## Authentication Flow
+
+```text
+User Login
+     │
+     ▼
+Backend Authentication
+     │
+     ▼
+JWT Token Issued
+     │
+     ▼
+Token Stored in Browser
+     │
+     ▼
+Protected Routes Accessible
+```
+
+---
+
+## Future Enhancements
+
+- Project filtering and sorting
+- Task due dates
+- Task priority levels
+- Project analytics dashboard
+- Dark mode
+- Team collaboration features
+- Drag-and-drop task organization
+
+---
+
+## Screenshots
+
+### Dashboard
+
+_Add screenshot here_
+
+### Project Details
+
+_Add screenshot here_
+
+---
+
+## Author
+
+**Keoki Stevenson**
+
+Capstone Project – Software Engineering Program
