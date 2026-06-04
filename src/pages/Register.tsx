@@ -17,7 +17,12 @@ function Register() {
         try {
             setError("");
             await register(username, email, password);
-            navigate("/dashboard");
+            // navigate("/verify-email");
+            navigate("/verify-email", {
+                state: {
+                    email,
+                },
+            });
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
