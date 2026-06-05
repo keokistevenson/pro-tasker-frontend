@@ -42,6 +42,12 @@ The application communicates with the backend through RESTful API endpoints secu
 * Business logic and API processing
 * Data persistence
 
+## Related Repositories
+
+### Backend API
+https://github.com/keokistevenson/pro-tasker-backend
+
+
 ---
 
 ## Feature Demonstrations
