@@ -62,19 +62,19 @@ The application communicates with the backend through RESTful API endpoints secu
 <tr>
 <td align="center">
 <b>Home Page</b><br>
-<img src="src/assets/Home(1).png" width="250" alt="Mobile home page for Pro-Tasker with Get Started and Log In buttons">
+<img src="src/assets/Home.png" width="250" alt="Mobile home page for Pro-Tasker with Get Started and Log In buttons">
 </td>
 
 <td align="center">
 <b>User Registration</b><br>
-<img src="src/assets/Registration(1).png" width="250" alt="Mobile registration page with username, email, and password fields">
+<img src="src/assets/Registration.png" width="250" alt="Mobile registration page with username, email, and password fields">
 </td>
 </tr>
 
 <tr>
 <td align="center">
 <b>Dashboard</b><br>
-<img src="src/assets/Dashboard(1).png" width="250" alt="Mobile project dashboard with create project form">
+<img src="src/assets/Dashboard.png" width="250" alt="Mobile project dashboard with create project form">
 </td>
 
 <td align="center">
@@ -91,7 +91,7 @@ The application communicates with the backend through RESTful API endpoints secu
 
 <td align="center">
 <b>Task Creation</b><br>
-<img src="src/assets/Task(1).png" width="250" alt="Mobile project details page with add task form and status dropdown">
+<img src="src/assets/Task.png" width="250" alt="Mobile project details page with add task form and status dropdown">
 </td>
 </tr>
 </table>
